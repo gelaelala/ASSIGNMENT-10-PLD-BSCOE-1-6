@@ -14,7 +14,7 @@
 
 
 import cv2
-import datetime as datetime 
+from datetime import datetime 
 import os as access 
 
 def webcam ():
