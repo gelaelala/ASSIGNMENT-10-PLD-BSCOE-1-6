@@ -16,8 +16,9 @@
 import cv2
 from datetime import datetime 
 import os as access 
+import sys
 
-def webcam ():
+def QR_code ():
     webcam = cv2.VideoCapture (0)
     qr_detector = cv2.QRCodeDetector ()
     while True:
@@ -29,7 +30,6 @@ def webcam ():
             data_to_textfile (contacttracing)
             break
         if cv2.waitKey (1) == ord('q'):
-            print ('No QR code has been scanned.')
             break
     
 def data_to_textfile (contact_tracing):
@@ -41,12 +41,11 @@ def data_to_textfile (contact_tracing):
         file.write (f'     Date: {current_date_time.strftime ("%B %d, %Y")} \n')
         file.write (f'     Time: {current_date_time.strftime ("%H:%M")}')
         file.close ()
+        access.startfile ("Contact Tracing.txt")
 
 def main ():
-    webcam ()
-    data_to_textfile ()
-    access.startfile ("Contact Tracing.txt")
+    contacttracing = QR_code ()
+    data_to_textfile (contacttracing)
     cv2.destroyAllWindows
 
 main ()
-        
