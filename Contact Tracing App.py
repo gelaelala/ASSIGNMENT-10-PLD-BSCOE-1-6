@@ -41,4 +41,12 @@ def datatotextfile (contact_tracing):
         file.write (f'     Date: {current_date_time.strftime ("%B %d, %Y")} \n')
         file.write (f'     Time: {current_date_time.strftime ("%H:%M")}')
         file.close ()
+
+def main ():
+    webcam ()
+    datatotextfile ()
+    access.startfile ("Contact Tracing.txt")
+    cv2.destroyAllWindows
+
+main ()
         
