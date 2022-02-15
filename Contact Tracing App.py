@@ -26,9 +26,19 @@ def webcam ():
         cv2.imshow ('QR Code Scanner', img)
         if data:
             contacttracing = data
+            datatotextfile (contacttracing)
             break
         if cv2.waitKey (1) == ord('q'):
             print ('No QR code has been scanned.')
             break
-        return contacttracing
+    
+def datatotextfile (contact_tracing):
+        current_date_time = datetime.now ()
+        file = open ("Contact Tracing.txt", 'w+')
+        file.write (f'{contact_tracing} \n')
+        file.write (' \n')
+        file.write ('QR Code scanned in: \n')
+        file.write (f'     Date: {current_date_time.strftime ("%B %d, %Y")} \n')
+        file.write (f'     Time: {current_date_time.strftime ("%H:%M")}')
+        file.close ()
         
