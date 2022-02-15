@@ -16,3 +16,19 @@
 import cv2
 import datetime as datetime 
 import os as access 
+
+def webcam ():
+    webcam = cv2.VideoCapture (0)
+    qr_detector = cv2.QRCodeDetector ()
+    while True:
+        _, img = webcam.read ()
+        data, one, _ = qr_detector.detectAndDecode (img)
+        cv2.imshow ('QR Code Scanner', img)
+        if data:
+            contacttracing = data
+            break
+        if cv2.waitKey (1) == ord('q'):
+            print ('No QR code has been scanned.')
+            break
+        return contacttracing
+        
