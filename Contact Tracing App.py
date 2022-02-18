@@ -33,14 +33,14 @@ def QR_code ():
     
 def data_to_textfile (data):
         current_date_time = datetime.now () #getting the date and time as to when the QR code was scanned
-        file = open ("Contact Tracing.txt", 'w+') #creates new file 
+        file = open ("Contact Tracing Information.txt", 'w') #creates new file 
         file.write (f'{data} \n') #data read in QR code will be written in the text file
         file.write ('\n') #creates a new line (acts as the spacing between the last line from QR code and first line for the date and time part)
         file.write ('QR Code scanned in: \n')
         file.write (f'     Date: {current_date_time.strftime ("%B %d, %Y")} \n') #format of date will be in "month" "day", "year" (e.g. February 18, 2022)
         file.write (f'     Time: {current_date_time.strftime ("%I:%M %p")}') #format of time will be in hours:minutes and is stated in 12-hour format instead of 24-hour format (e.g. 12:22 PM)
         file.close ()
-        access.startfile ("Contact Tracing.txt") #after creating the file, text file will start/open in Notepad app
+        access.startfile ("Contact Tracing Information.txt") #after creating the file, text file will start/open in Notepad app
 
 QR_code () #this will execute the whole program
 
