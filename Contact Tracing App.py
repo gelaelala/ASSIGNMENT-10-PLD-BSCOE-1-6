@@ -14,6 +14,7 @@
 
 
 import cv2 #imported cv2 in order to access the webcam
+from pyzbar.pyzbar import decode
 from datetime import datetime #imported datetime in order to get the date and time on when did the user scanned the qr code
 import os as access #imported access so that text file can be opened in its default program (Notepad)
 
@@ -22,32 +23,20 @@ def QR_code ():
     qr_detector = cv2.QRCodeDetector ()
     while True:
         _, img = webcam.read ()
-        data, one, _ = qr_detector.detectAndDecode (img)
-        if one is not None:
-            bb_pts = one.astype(int).reshape(-1, 2)
-            num_bb_pts = len(bb_pts)
-            for i in range(num_bb_pts):
-                cv2.line(img,
-                     tuple(bb_pts[i]),
-                     tuple(bb_pts[(i+1) % num_bb_pts]),
-                     color=(255, 0, 255), thickness=2)
-                cv2.putText(img, 'Contact Tracing Details',
-                    (bb_pts[0][0], bb_pts[0][1] - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5, (0, 255, 0), 2)
+        for qrcode in decode (img):
+            if qrcode:
+                QR_data = qrcode.data.decode ('utf-8')
+                data_to_textfile (QR_data)
+                break
         cv2.imshow ('QR Code Scanner', img) #opens webcam in new window
-        if data:
-            a = data
-            data_to_textfile (a)
-            break
         if cv2.waitKey (1) == ord('q'): #pressing q from keyboard will close the webcam
             cv2.destroyAllWindows
             break
     
-def data_to_textfile (a):
+def data_to_textfile (QR_data):
         current_date_time = datetime.now () #getting the date and time as to when the QR code was scanned
         file = open ("Contact Tracing Information.txt", 'w') #creates new file 
-        file.write (f'{a} \n') #data read in QR code will be written in the text file
+        file.write (f'{QR_data} \n') #data read in QR code will be written in the text file
         file.write ('\n') #creates a new line (acts as the spacing between the last line from QR code and first line for the date and time part)
         file.write ('QR Code scanned in: \n')
         file.write (f'     Date: {current_date_time.strftime ("%B %d, %Y")} \n') #format of date will be in "month" "day", "year" (e.g. February 18, 2022)
