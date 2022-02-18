@@ -4,8 +4,6 @@ import png
 
 contact_tracing = """          --- CONTACT TRACING INFORMATION ---
 
-Personal Details:
-
 Name: Angela E. Corpuz
 Age: 19
 Birthday: December 14, 2002
@@ -31,4 +29,4 @@ Booster Shot:
 
 CT_file = pyqrcode.create (contact_tracing)
 
-CT_file.png ('Contact Tracing Details.png', scale =6)
+CT_file.png ('Contact Tracing Details.png', scale = 6)
