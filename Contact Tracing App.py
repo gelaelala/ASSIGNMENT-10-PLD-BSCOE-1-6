@@ -16,7 +16,6 @@
 import cv2
 from datetime import datetime 
 import os as access 
-import sys
 
 def QR_code ():
     webcam = cv2.VideoCapture (0)
@@ -39,7 +38,7 @@ def data_to_textfile (contact_tracing):
         file.write (' \n')
         file.write ('QR Code scanned in: \n')
         file.write (f'     Date: {current_date_time.strftime ("%B %d, %Y")} \n')
-        file.write (f'     Time: {current_date_time.strftime ("%H:%M")}')
+        file.write (f'     Time: {current_date_time.strftime ("%I:%M %p")}')
         file.close ()
         access.startfile ("Contact Tracing.txt")
 
