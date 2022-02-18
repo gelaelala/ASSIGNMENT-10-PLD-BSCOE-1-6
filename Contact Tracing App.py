@@ -25,17 +25,15 @@ def QR_code ():
         data, one, _ = qr_detector.detectAndDecode (img)
         cv2.imshow ('QR Code Scanner', img)
         if data:
-            contacttracing = data
-            data_to_textfile (contacttracing)
+            data_to_textfile (data)
             break
         if cv2.waitKey (1) == ord('q'):
             break
     
-def data_to_textfile (contact_tracing):
+def data_to_textfile (data):
         current_date_time = datetime.now ()
         file = open ("Contact Tracing.txt", 'w+')
-        file.write (f'{contact_tracing} \n')
-        file.write (' \n')
+        file.write (f'{data} \n')
         file.write ('QR Code scanned in: \n')
         file.write (f'     Date: {current_date_time.strftime ("%B %d, %Y")} \n')
         file.write (f'     Time: {current_date_time.strftime ("%I:%M %p")}')
@@ -43,8 +41,7 @@ def data_to_textfile (contact_tracing):
         access.startfile ("Contact Tracing.txt")
 
 def main ():
-    contacttracing = QR_code ()
-    data_to_textfile (contacttracing)
+    QR_code ()
     cv2.destroyAllWindows
 
 main ()
