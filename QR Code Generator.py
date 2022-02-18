@@ -2,7 +2,7 @@ import pyqrcode
 from pyqrcode import QRCode
 import png
 
-contact_tracing = """--- CONTACT TRACING INFORMATION ---
+contact_tracing = """          --- CONTACT TRACING INFORMATION ---
 
 Personal Details:
 
@@ -29,3 +29,6 @@ Booster Shot:
     *Haven't taken yet*
 """
 
+CT_file = pyqrcode.create (contact_tracing)
+
+CT_file.png ('Contact Tracing Details.png', scale =6)
