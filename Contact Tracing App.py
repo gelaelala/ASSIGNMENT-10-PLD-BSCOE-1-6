@@ -22,7 +22,7 @@ def QR_code ():
     webcam = cv2.VideoCapture (0)
     qr_detector = cv2.QRCodeDetector ()
     while True:
-        _, img = webcam.read ()
+        _, img, qrcode = webcam.read ()
         for qrcode in decode (img):
             if qrcode:
                 QR_data = qrcode.data.decode ('utf-8')
@@ -32,17 +32,17 @@ def QR_code ():
         if cv2.waitKey (1) == ord('q'): #pressing q from keyboard will close the webcam
             cv2.destroyAllWindows
             break
-    
+
 def data_to_textfile (QR_data):
         current_date_time = datetime.now () #getting the date and time as to when the QR code was scanned
-        file = open ("Contact Tracing Information.txt", 'w') #creates new file 
+        file = open ("Contact Tracing Details.txt", 'w') #creates new file 
         file.write (f'{QR_data} \n') #data read in QR code will be written in the text file
         file.write ('\n') #creates a new line (acts as the spacing between the last line from QR code and first line for the date and time part)
         file.write ('QR Code scanned in: \n')
         file.write (f'     Date: {current_date_time.strftime ("%B %d, %Y")} \n') #format of date will be in "month" "day", "year" (e.g. February 18, 2022)
         file.write (f'     Time: {current_date_time.strftime ("%I:%M %p")}') #format of time will be in hours:minutes and is stated in 12-hour format instead of 24-hour format (e.g. 12:22 PM)
         file.close ()
-        access.startfile ("Contact Tracing Information.txt") #after creating the file, text file will start/open in Notepad app
+        access.startfile ("Contact Tracing Details.txt") #after creating the file, text file will start/open in Notepad app
 
 QR_code () #this will execute the whole program
 
