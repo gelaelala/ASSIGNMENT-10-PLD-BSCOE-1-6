@@ -23,18 +23,31 @@ def QR_code ():
     while True:
         _, img = webcam.read ()
         data, one, _ = qr_detector.detectAndDecode (img)
+        if one is not None:
+            bb_pts = one.astype(int).reshape(-1, 2)
+            num_bb_pts = len(bb_pts)
+            for i in range(num_bb_pts):
+                cv2.line(img,
+                     tuple(bb_pts[i]),
+                     tuple(bb_pts[(i+1) % num_bb_pts]),
+                     color=(255, 0, 255), thickness=2)
+                cv2.putText(img, 'Contact Tracing Details',
+                    (bb_pts[0][0], bb_pts[0][1] - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5, (0, 255, 0), 2)
         cv2.imshow ('QR Code Scanner', img) #opens webcam in new window
         if data:
-            data_to_textfile (data)
+            a = data
+            data_to_textfile (a)
             break
         if cv2.waitKey (1) == ord('q'): #pressing q from keyboard will close the webcam
             cv2.destroyAllWindows
             break
     
-def data_to_textfile (data):
+def data_to_textfile (a):
         current_date_time = datetime.now () #getting the date and time as to when the QR code was scanned
         file = open ("Contact Tracing Information.txt", 'w') #creates new file 
-        file.write (f'{data} \n') #data read in QR code will be written in the text file
+        file.write (f'{a} \n') #data read in QR code will be written in the text file
         file.write ('\n') #creates a new line (acts as the spacing between the last line from QR code and first line for the date and time part)
         file.write ('QR Code scanned in: \n')
         file.write (f'     Date: {current_date_time.strftime ("%B %d, %Y")} \n') #format of date will be in "month" "day", "year" (e.g. February 18, 2022)
